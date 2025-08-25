@@ -1,5 +1,5 @@
 body {
-  background-color: pink;
+  background-color: rgb(255, 223, 230);
 }
 * {
   padding: 0;
@@ -11,6 +11,8 @@ main {
   height: fit-content;
   display: flex;
   flex-direction: column;
+  margin-top: 100px;
+  z-index: -1;
 }
 
 nav {
@@ -19,7 +21,11 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 10px 30px;
-  /* background-color: bisque; */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background-color: rgb(254, 183, 195);
 }
 
 .webName {
@@ -51,26 +57,29 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 100px;
+  z-index: -1;
 }
 
 .blogArea {
   width: 70%;
   height: 70vh;
   border-radius: 10px;
-  background-color: brown;
+  /* background-color: rgb(245, 240, 230); */
   display: flex;
 }
 
 .typeBlog {
   width: 50%;
   height: 100%;
-  background-color: bisque;
+  background-color: rgb(224, 205, 208);
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  padding: 10px;
+  border-radius: 0 7px 7px 0;
 }
 
 .typeBlog input {
@@ -114,6 +123,12 @@ main {
   width: 100%;
 }
 
+#blogTitle:focus {
+  /* background-color: #666; */
+  box-shadow: 0 4px 10px rgba(255, 192, 203, 0.5);
+  border: 1px solid pink;
+}
+
 #blogText {
   height: 80%;
   width: 70%;
@@ -124,77 +139,75 @@ main {
 
 #blogImg {
   width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 #blogImg img {
-  width: 90%;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px 0 0 7px;
 }
 
-#writtenBlogs {
-  width: 100%;
-  height: 75vh;
+/* Container for all blog cards */
+#blogWrapper {
   display: flex;
   flex-wrap: wrap;
-  padding: 10px;
-  /* align-items: center; */
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
-
-  /* justify-content: space-around; */
-  background-color: green;
+  margin-top: 50px;
+  padding: 20px;
 }
 
-#blogContainer {
-  width: 24%;
-  height: 30%;
-  border: none;
+/* Individual card */
+.blog-card {
+  background: #fff;
   border-radius: 12px;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  margin: 16px;
-  display: flex;
-}
-
-/* #blogContainer:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-} */
-
-#blogContainer div {
-  width: 100%;
-  height: 30%;
-}
-
-#blogPostImg {
-  width: 50%;
-  /* height: 100%; */
-  border-radius: 50%;
-  /* object-fit: fill; */
-  transition: transform 0.3s ease;
-}
-
-.textCase {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  flex: 1 1 calc(33.333% - 20px);
+  max-width: 350px;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease;
 }
 
-/* #blogContainer:hover #blogPostImg {
-  transform: scale(1.05);
-} */
-
-#blogContainer h2 {
-  font-size: 1.2rem;
-  color: #222;
-  margin-bottom: 8px;
+.blog-card:hover {
+  transform: translateY(-6px);
 }
-#blogContainer p {
+
+/* Image section */
+.blog-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Text section */
+.blog-text {
+  padding: 15px;
+}
+
+.blog-text h2 {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.blog-text p {
+  margin: 0;
   font-size: 0.95rem;
-  color: #555;
-  line-height: 1.4;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .blog-card {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .blog-card {
+    flex: 1 1 100%;
+  }
 }
