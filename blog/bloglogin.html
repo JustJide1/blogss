@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: rgb(26, 188, 156);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 75vh;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+      }
+
+      .head {
+        background-color: rgb(22, 160, 133);
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .login-body {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+      }
+
+      .login-body input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .login-body button {
+        background: rgb(22, 160, 133);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .login-body button:hover {
+        background: rgb(20, 140, 115);
+      }
+
+      .signUp {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .signUp span {
+        color: rgb(22, 160, 133);
+        cursor: pointer;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <h2>Login Form</h2>
+      </div>
+      <div class="login-body">
+        <input type="email" placeholder="Email" id="userMail" />
+        <input type="password" placeholder="Password" id="userPassword" />
+        <button onclick="loginUser()">Login</button>
+        <div class="signUp">
+          <p>Not a member? <span>Sign up now</span></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let database = JSON.parse(localStorage.getItem("julyDatabase"));
+
+  function loginUser() {
+    let userEmail = document.getElementById("userMail").value.trim();
+    let userPassword = document.getElementById("userPassword").value.trim();
+    console.log(userEmail, userPassword);
+
+    let currentUser = database.find((user) => {
+      return user.email === userEmail;
+    });
+
+    if (!currentUser) {
+      alert("user doesnt exist , please sign up");
+      window.location.href = "signup.html";
+    } else {
+      if (currentUser.password !== userPassword) {
+        alert("invalid email or password");
+        // buttonTag.innerHTML = "Log In";
+        // buttonTag.disabled = false;
+      } else {
+        alert("login successful");
+        let userIndex = database.findIndex((user) => {
+          return user.email === userEmail;
+        });
+        localStorage.setItem("myUserIndex", userIndex);
+        window.location.href = "blog.html";
+      }
+    }
+
+    // if (!userEmail || !userPassword) {
+    //   alert("Please fill all fields");
+    // } else {
+    //   if (currentUser.password !== userPassword) {
+    //     {
+    //       alert("invalid login info");
+    //     }
+    //   } else if (currentUser) {
+    //     alert("Login Successful");
+    //     let userIndex = database.findIndex((user) => {
+    //       return user.email === userEmail;
+    //     });
+    //     console.log(userIndex);
+    //     localStorage.setItem("myUserIndex", userIndex);
+    //     window.location.href = "blog.html";
+    //     // localStorage.setItem("availableUser", JSON.stringify(currentUser));
+    //   }
+    // }
+  }
+</script>

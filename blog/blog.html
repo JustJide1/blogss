@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="blog.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav>
+      <div class="webName"><h2>The Name</h2></div>
+
+      <div class="aboutUser">
+        <img src="secpfp.jpg" id="image" />
+        <a href="chooseprofile.html">Profile</a>
+        <a href="bloglogin.html">Login</a>
+        <a href="signup.html">SignUp</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="blogArea">
+        <div id="blogImg"></div>
+        <div class="typeBlog">
+          <input type="text" placeholder="Blog Title" id="blogTitle" />
+          <textarea name="" id="blogText"></textarea>
+
+          <div class="postBlogArea">
+            <label for="blogFile" id="blogPhoto">Choose Photo</label>
+            <input
+              type="file"
+              id="blogFile"
+              accept=".png, .jpg, .jpeg"
+              onchange="blogPicture()"
+            />
+            <button onclick="postBlog()">Post Blog</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="writtenBlogs"></section>
+    </main>
+  </body>
+</html>
+
+<script>
+  let database = JSON.parse(localStorage.getItem("julyDatabase"));
+  let userIndex = JSON.parse(localStorage.getItem("myUserIndex"));
+  let currentUser = database[userIndex];
+  displayBlogs();
+  // currentUser.blogs = [];
+
+  function displayBlogs() {
+    writtenBlogs.innerHTML = "";
+    if (currentUser.blogs && currentUser.blogs.length > 0) {
+      currentUser.blogs.forEach((blog) => {
+        writtenBlogs.innerHTML += `
+        <div id="blogContainer">
+          <div>
+            <img src="${blog.blogImage}" id="blogPostImg" />
+          </div>
+          <div class="textCase">
+            <h2>${blog.title}</h2>
+            <p>${blog.text}</p>
+          </div>
+        </div>
+        `;
+      });
+      // writtenBlogs.innerHTML = currentUser.blogs;
+    }
+  }
+
+  displayBlogs();
+
+  // to check if any one is logged in
+  function checkUserAuth() {
+    console.log(userIndex, currentUser);
+
+    if (!currentUser) {
+      document.body.innerHTML = "";
+      alert("unauthorized");
+      window.location.href = "bloglogin.html";
+    }
+  }
+  checkUserAuth();
+
+  if (currentUser.userPfp) {
+    image.src = currentUser.userPfp;
+  }
+
+  let blogPostImgSelect = "";
+
+  function blogPicture() {
+    const file = document.getElementById("blogFile").files[0];
+
+    if (!file) {
+      alert("please attach a file");
+      return;
+    }
+
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = (event) => {
+      blogPostImgSelect = event.target.result;
+    };
+  }
+
+  function postBlog() {
+    let blogTitle = document.getElementById("blogTitle").value.trim();
+    let blogText = document.getElementById("blogText").value.trim();
+
+    console.log(blogTitle, blogText);
+
+    if (!blogTitle || !blogText) {
+      alert("Enter something");
+    }
+
+    let toUSe = blogPostImgSelect || "eren.jpg";
+
+    writtenBlogs.innerHTML += `
+        <div id="blogContainer">
+          <div>
+            <img src="${toUSe}" id="blogPostImg" />
+          </div>
+          <div class="textCase">
+          <h2>${blogTitle}</h2>
+          <p>${blogText}</p>
+          </div>
+        </div>
+        `;
+    document.getElementById("blogTitle").value = "";
+    document.getElementById("blogText").value = "";
+    // document.getElementById("myFile").value = "";
+    blogPostImgSelect = "";
+
+    let blogObj = {
+      title: blogTitle,
+      text: blogText,
+      blogImage: toUSe,
+    };
+
+    if (!currentUser.blogs) {
+      currentUser.blogs = [];
+    }
+    currentUser.blogs.push(blogObj);
+
+    displayBlogs();
+    localStorage.setItem("julyDatabase", JSON.stringify(database));
+  }
+</script>
